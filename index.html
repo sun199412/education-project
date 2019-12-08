@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+	<head>
+		<meta charset="utf-8" />
+	    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+		<title>数据分析维度统计</title>
+		<link rel="stylesheet" href="css/app.css" />
+		<script src="js/echarts.min.js"></script>
+	</head>
+	
+	<body class="biao1">
+		<div class="header">
+			<h1 class="header-title" style="color: #FFFFFF;">数据分析维度统计</h1>
+		</div>
+		<div class="wrapper">
+			<div class="content">
+				<div class="col col-l">
+					<div class="xpanel-wrapper xpanel-wrapper-40">
+						<div class="xpanel xpanel-l-t Bj">
+							<div class="title">学生类别（人数）指标</div>
+							<div class="xslb" id="xslb" style="width: 100%;height: 90%;" ></div>
+						</div>
+					</div>
+					<div class="xpanel-wrapper xpanel-wrapper-60">
+						<div class="xpanel xpanel-l-b Bj">
+							<div class="title">年度学生的就读方式分析</div>
+							<div class="tu" id="tu1" style="width: 100%;height: 90%;" ></div>
+						</div>
+					</div>
+				</div>
+				<div class="col col-c">
+					<div class="xpanel-wrapper xpanel-wrapper-100">
+						<div class="xpanel xpanel-c-b Bj">
+							<div class="title">学生居住地区的入学方式</div>
+							<div class="tu" id="tu" style="width: 100%;height: 90%;" ></div>
+						</div>
+					</div>
+				</div>
+				<div class="col col-r">
+					<div class="xpanel-wrapper xpanel-wrapper-40">
+						<div class="xpanel xpanel-r-t Bj">
+							<div class="title">班级人数分析</div>
+							<div class="xslb" id="tu7" style="width: 100%;height: 90%;" ></div>
+						</div>
+					</div>
+					<div class="xpanel-wrapper xpanel-wrapper-60">
+						<div class="xpanel xpanel-r-m Bj">
+							<div class="title">专业人数分析</div>
+							<div class="tu" id="tu6" style="width: 100%;height: 90%;" ></div>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var myxslb = echarts.init(document.getElementById('xslb'));
+		var mytu3 = echarts.init(document.getElementById('tu'));
+		var mytu4 = echarts.init(document.getElementById('tu1'));
+		var mytu6 = echarts.init(document.getElementById('tu6'));
+		var mytu7 = echarts.init(document.getElementById('tu7'));
+		
+		var option1 = {
+		      // backgroundColor: "#05224d",
+		      tooltip: {},
+		      grid: {
+		          top: '8%',
+		          left: '4%',
+		          right: '4%',
+		          bottom: '4%',
+		          containLabel: true,
+		      },
+		      // legend: {
+		      //     itemGap: 50,
+		      //     data: ['社团人数'],
+		      //     textStyle: {
+		      //         color: '#f9f9f9',
+		      //         borderColor: '#fff'
+		      //     },
+		      // },
+		      xAxis: [{
+		          type: 'category',
+		          boundaryGap: true,
+		          axisLine: { //坐标轴轴线相关设置。数学上的x轴
+		              show: true,
+		              lineStyle: {
+		                  color: '#0a3256',
+						  fontSize: 12,
+		              },
+		          },
+		          axisLabel: { //坐标轴刻度标签的相关设置
+		              textStyle: {
+		                  color: '#d1e6eb',
+		                  margin: 15,
+						  fontSize: 12,
+		              },
+		          },
+		          axisTick: {
+		              show: false,
+		          },
+		          data: ['调整后中职学生' ,'职业高中学生','普通中专学生','成人中专学生','技工学校学生','其他'],
+		      }],
+		      yAxis: [{
+		          type: 'value',
+		          min: 0,
+		          // max: 140,
+		          splitNumber: 7,
+		          splitLine: {
+		              show: true,
+		              lineStyle: {
+		                  color: '#0a3256'
+		              }
+		          },
+		          axisLine: {
+		              show: false,
+		          },
+		          axisLabel: {
+		              margin: 20,
+		              textStyle: {
+		                  color: '#d1e6eb',
+		  
+		              },
+		          },
+		          axisTick: {
+		              show: false,
+		          },
+		      }],
+		      series: [{
+		        
+		        //   name: '社团人数',
+		          type: 'bar',
+		          barWidth: 16,
+		          tooltip: {
+		              show: false
+		          },
+		           label: {
+					   normal: {
+		              show: true,
+		              position: 'top',
+		              textStyle: {
+		                  color: '#fff',
+		              },
+					  }
+		          },
+		          itemStyle: {
+		  	            normal: {
+		  	                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+		  	                    offset: 0,
+		  	                    color: '#41E1D4' // 0% 处的颜色
+		  	                }, {
+		  	                    offset: 1,
+		  	                    color: '#10A7DB' // 100% 处的颜色
+		  	                }], false),
+		  	                barBorderRadius: [30, 30, 0, 0],
+		  	                shadowBlur: 4,
+		  	            }
+		  	        },
+		         data: [200, 382, 102, 267, 186, 315, 316]
+		      }]
+		  };
+		
+var option3 = {
+    // backgroundColor: "#05224d",
+    tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+            type: 'shadow'
+        }
+    },
+    grid: {
+        top: '14%',
+        left: '4%',
+        right: '4%',
+        bottom: '4%',
+        containLabel: true,
+    },
+    legend: {
+        itemGap: 50,
+        data: ['其他','县城','乡镇非农','城市','农村'],
+        textStyle: {
+            color: '#f9f9f9',
+            borderColor: '#fff'
+        },
+    },
+    xAxis: [{
+        type: 'category',
+        boundaryGap: true,
+        axisLine: { //坐标轴轴线相关设置。数学上的x轴
+            show: true,
+            lineStyle: {
+                color: '#f9f9f9'
+            },
+        },
+        axisLabel: { //坐标轴刻度标签的相关设置
+        color: '#fff', 
+        interval:0, //强制显示文字
+            textStyle: {
+                color: '#d1e6eb',
+                margin: 15,
+            },
+        },
+        
+        axisTick: {
+            show: false,
+        },
+         data: ['其他','统一招生考试/普通入学','保送','民族班','定向培养','体育特招','文艺特招','学生干部保送','考试推荐','外校转入','恢复入学资格'],
+    }],
+    yAxis: [{
+        type: 'value',
+        min: 0,
+        // max: 140,
+        splitNumber: 7,
+        splitLine: {
+            show: true,
+            lineStyle: {
+                color: '#0a3256'
+            }
+        },
+        axisLine: {
+            show: false,
+        },
+        axisLabel: {
+            margin: 20,
+            textStyle: {
+                color: '#d1e6eb',
+
+            },
+        },
+        axisTick: {
+            show: false,
+        },
+    }],
+    series: [{
+        name: '其他',
+        type: 'line',
+        // smooth: true, //是否平滑曲线显示
+        // 			symbol:'circle',  // 默认是空心圆（中间是白色的），改成实心圆
+        showAllSymbol: true,
+        symbol: 'emptyCircle',
+        symbolSize: 6,
+        lineStyle: {
+            normal: {
+                color: "#28ffb3", // 线条颜色
+            },
+            borderColor: '#f0f'
+        },
+        label: {
+            show: true,
+            position: 'top',
+            textStyle: {
+                color: '#fff',
+            }
+        },
+        itemStyle: {
+            normal: {
+                color: "#28ffb3",
+
+            }
+        },
+        tooltip: {
+            show: false
+        },
+        areaStyle: { //区域填充样式
+            normal: {
+                //线性渐变，前4个参数分别是x0,y0,x2,y2(范围0~1);相当于图形包围盒中的百分比。如果最后一个参数是‘true’，则该四个值是绝对像素位置。
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                        offset: 0,
+                        color: 'rgba(0,154,120,1)'
+                    },
+                    {
+                        offset: 1,
+                        color: 'rgba(0,0,0, 0)'
+                    }
+                ], false),
+                shadowColor: 'rgba(53,142,215, 0.9)', //阴影颜色
+                shadowBlur: 20 //shadowBlur设图形阴影的模糊大小。配合shadowColor,shadowOffsetX/Y, 设置图形的阴影效果。
+            }
+        },
+        data: [9,13, 14, 16, 15, 14, 17, 11, 13,11, 13]
+    }, {
+        name: '县城',
+        type: 'line',
+        // smooth: true, //是否平滑曲线显示
+        // 			symbol:'circle',  // 默认是空心圆（中间是白色的），改成实心圆
+        showAllSymbol: true,
+        symbol: 'emptyCircle',
+        symbolSize: 6,
+        lineStyle: {
+            normal: {
+                color: "#28ffb3", // 线条颜色
+            },
+            borderColor: '#f0f'
+        },
+        label: {
+            show: true,
+            position: 'top',
+            textStyle: {
+                color: '#fff',
+            }
+        },
+        itemStyle: {
+            normal: {
+                color: "#28ffb3",
+
+            }
+        },
+        tooltip: {
+            show: false
+        },
+        areaStyle: { //区域填充样式
+            normal: {
+                //线性渐变，前4个参数分别是x0,y0,x2,y2(范围0~1);相当于图形包围盒中的百分比。如果最后一个参数是‘true’，则该四个值是绝对像素位置。
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                        offset: 0,
+                        color: 'rgba(0,154,120,1)'
+                    },
+                    {
+                        offset: 1,
+                        color: 'rgba(0,0,0, 0)'
+                    }
+                ], false),
+                shadowColor: 'rgba(53,142,215, 0.9)', //阴影颜色
+                shadowBlur: 20 //shadowBlur设图形阴影的模糊大小。配合shadowColor,shadowOffsetX/Y, 设置图形的阴影效果。
+            }
+        },
+        data: [6, 7,8, 9, 11, 8, 7, 6, 9, 4, 7]
+    }, {
+        name: '乡镇非农',
+        type: 'bar',
+        barWidth: 15,
+        tooltip: {
+            show: false
+        },
+         label: {
+            show: true,
+            position: 'top',
+            textStyle: {
+                color: '#fff',
+            }
+        },
+        itemStyle: {
+                    normal: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                            offset: 0,
+                            color: 'rgba(249,251,4,1)' // 0% 处的颜色
+                        }, {
+                            offset: 1,
+                            color: 'rgba(9,227,221,1)' // 100% 处的颜色
+                        }], false),
+                        barBorderRadius: [30, 30, 30, 30],
+                        shadowBlur: 4,
+                    }
+                },
+        data: [1, 2, 2, 7, 9, 5, 6, 7, 8, 5, 6]
+    
+    }, {
+        name: '城市',
+        type: 'bar',
+        barWidth: 15,
+        tooltip: {
+            show: false
+        },
+         label: {
+            show: true,
+            position: 'top',
+            textStyle: {
+                color: '#fff',
+            }
+        },
+        itemStyle: {
+            normal: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                    offset: 0,
+                    color: '#41E1D4' // 0% 处的颜色
+                }, {
+                    offset: 1,
+                    color: '#10A7DB' // 100% 处的颜色
+                }], false),
+                barBorderRadius: [30, 30, 0, 0],
+                shadowBlur: 4,
+            }
+        },
+        data: [2, 3, 1, 4, 5, 6, 1, 1, 6,9, 8]
+    }, {
+        name: '农村',
+        type: 'bar',
+        barWidth: 15,
+        tooltip: {
+            show: false
+        },
+         label: {
+            show: true,
+            position: 'top',
+            textStyle: {
+                color: '#fff',
+            }
+        },
+        itemStyle: {
+            normal: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                    offset: 0,
+                    color: 'rgba(0,244,255,1)' // 0% 处的颜色
+                }, {
+                    offset: 1,
+                    color: 'rgba(0,77,167,1)' // 100% 处的颜色
+                }], false),
+                barBorderRadius: [30, 30, 30, 30],
+                shadowBlur: 4,
+            }
+        },
+        data: [2, 1, 4, 5, 6, 5,4, 7, 6, 5, 6]
+    }]
+};
+	
+	 var option4 = {
+	    
+	      tooltip: {},
+	      legend: {
+	          bottom: '1%',
+	          itemWidth: 12,
+	          itemHeight: 12,
+	          data: ['走读', '住校'],
+	          textStyle: {
+	              color: '#fff'
+	          }
+	      },
+		  grid: {
+		      left: '1%',
+		      right: '1%',
+		      top:'1%',
+		      bottom: '1%',
+		      containLabel: true
+		  },
+	      radar: {
+	          radius: '60%',
+	          splitNumber: 8,
+	          axisLine: {
+	              lineStyle: {
+	                  color: '#fff',
+	                  opacity: .1
+	              }
+	          },
+	          splitLine: {
+	              lineStyle: {
+	                  color: '#fff',
+	                  opacity: .1
+	              }
+	          },
+	          splitArea: {
+	              areaStyle: {
+	                  color: 'rgba(255,255,255,.1)',
+	                  opacity: 1,
+	                  shadowBlur: 45,
+	                  shadowColor: 'rgba(0,0,0,.5)',
+	                  shadowOffsetX: 0,
+	                  shadowOffsetY: 15,
+	              }
+	          },
+	          indicator: [{
+	              name: '1978',
+	              max: 60
+	          }, {
+	              name: '1997',
+	              max: 160
+	          }, {
+	              name: '1998',
+	              max: 300
+	          }, {
+	              name: '1999',
+	              max: 350
+	          }, {
+	              name: '2000',
+	              max: 500
+	          }, {
+	              name: '2001',
+	              max: 250
+	          }, {
+	              name: '2002',
+	              max: 350
+	          }, {
+	              name: '2003',
+	              max: 500
+	          }, {
+	              name: '2004',
+	              max: 250,
+			  }, {
+				  name: '2005',
+				  max: 250
+			  }, {
+				  name: '2006',
+				  max: 350
+			  }, {
+				  name: '2007',
+				  max: 500
+			  }, {
+				  name: '2011',
+				  max: 250
+	          }]
+	      },
+	      series: [{
+	          name: '走读 vs 住校',
+	          type: 'radar',
+	          symbolSize: 0,
+	          areaStyle: {
+	              normal: {
+	                  shadowBlur: 13,
+	                  shadowColor: 'rgba(0,0,0,0.1)',
+	                  shadowOffsetX: 0,
+	                  shadowOffsetY: 10,
+	                  opacity: 1
+	              }
+	          },
+	          data: [{
+	              value: [40, 70, 72,71, 75, 74, 91, 85, 83, 86,81, 75, 84],
+	              name: '住校',
+	          }, {
+	              value: [35, 80, 60,85, 70, 70,60, 80, 80, 86,71, 60, 70],
+	              name: '走读',
+	          }]
+	      }],
+	      color: [
+	    new echarts.graphic.LinearGradient(0, 0, 1, 0, 
+	    [{offset: 0, color: '#4c66ff'},{offset: 1, color: '#5485e2'}], false),
+	    new echarts.graphic.LinearGradient(0, 0, 1, 0, 
+	    [{offset: 0, color: '#3ec2ff'},{offset: 1, color: '#4172ff'}], false)],
+	     
+	  };
+	
+var option6 = {
+         
+          "color": ["#8d7fec", "#6851f1", "#248ff7", "#2eddcd", "#8bd46e", "#fccb05", "#f7734e"],
+          grid: {
+                 left: 50,
+                 right: '3%',
+                 bottom: 100,
+               },
+          
+          "xAxis": [{
+              // "name": "时段",
+              "type": "category",
+             
+              "axisTick": {
+                  "alignWithLabel": true
+              },
+              axisLine:{//坐标轴轴线相关设置
+      				lineStyle:{
+      					color:'#0a3256',
+      					opacity:0.2
+      				}
+      			},
+              axisLabel: { //坐标轴刻度标签的相关设置。
+      				interval: 0,//设置为 1，表示『隔一个标签显示一个标签』
+      				margin:15,
+      				rotate: 45,
+      				textStyle: {
+      					color: '#aaa',
+      					fontStyle: 'normal',
+      					fontFamily: '微软雅黑',
+      					fontSize: 12,
+      				}
+      			},
+              data: ['电子商务', '航空服务', '护理', '会计', '酒店大专', '旅游服务与管理', '美发与形象设计', '数字影像技术', '学前(3+4)', '学前教育（五年制）', '学前教育（教育方向）', '学前教育(大专3+2)', '学前教育（保育方向）', '珠宝玉石加工与营销']
+          }],
+		  yAxis: [{
+		      type: 'value',
+		      min: 0,
+		      // max: 140,
+		      splitNumber: 7,
+		      splitLine: {
+		          show: true,
+		          lineStyle: {
+		              color: '#0a3256'
+		          }
+		      },
+		      axisLine: {
+		          show: false,
+		      },
+		      axisLabel: {
+		          margin: 20,
+		          textStyle: {
+		              color: '#d1e6eb',
+		  		  
+		          },
+		      },
+		      axisTick: {
+		          show: false,
+		      },
+		  }],
+         
+          "series": [{
+              "data": [0,105, 123, 145, 106,115, 102, 135, 117, 125, 116, 96, 96, 96],
+             
+              "stack": "one",
+              "type": "bar",
+              barWidth: 24,
+              label: {
+				  normal: {
+					show: true
+					},
+			  }
+          }, {
+              "data": [0,115, 107, 105, 156,115, 122, 125, 117, 145, 126, 96, 96, 96],
+           
+              "stack": "one",
+              "type": "bar",
+              label: {
+				  normal: {
+					show: true
+					},
+              }
+          }, {
+              "data": [0,145, 120, 105, 106,105, 102, 125, 107, 105, 106, 96, 96, 96],
+           
+              "stack": "one",
+              "type": "bar",
+              label: {
+			  normal: {
+				show: true
+				},
+              }
+          }, {
+              "data": [0,123,105, 107, 105, 126,145, 162, 165, 127, 105, 126, 96, 96],
+           
+              "stack": "one",
+              "type": "bar",
+              label: {
+			  normal: {
+				show: true
+				},
+              }
+          }, {
+              "data": [0,142,120,50, 20, 50, 70, 50, 60,50, 96, 96],
+             
+              "stack": "one",
+              "type": "bar",
+              label: {
+			  normal: {
+				show: true
+				},
+              }
+          }, {
+              "data": [45,155, 162,164, 57, 60,50, 60, 45, 37, 45, 96],
+             
+              "stack": "one",
+              "type": "bar",
+              label: {
+			  normal: {
+				show: true
+				},
+              }
+          }, {
+              "data": [20,114, 112, 139, 47, 55, 47, 46, 45, 96, 96, 96],
+             
+              "stack": "one",
+              "type": "bar",
+              label: {
+			  normal: {
+				show: true
+				},
+              }
+          }]
+      }
+
+    
+         var colorList = ['#74FFFB', '#FFA881', '#469AF0', '#8D82F3', '#83A6FE', '#1EBABC', '#82E3A2', '#F5BE5C']
+        var colorList2 = ['#73fbf7', '#0090ba', '#0084e9', '#0841bc', '#5e62ff', '#a48bff', '#5ebbef']
+ var option7 = {
+         // backgroundColor:"#090e36",
+              title: {
+                text: '',
+                subtext: '',
+                left: 'center',
+                textStyle: {
+                  color: '#fff',
+                  fontSize: 18
+                }
+              },
+        	  grid: {
+        	      top: '20%',
+        	      left: '1%',
+        	      right: '1%',
+        	      bottom: '20%',
+        	      containLabel: true,
+        	  },
+              legend: {
+                show: true,
+                top: '54%',
+                left: '0',
+                textStyle: {
+                  color: '#fff'
+                }
+              },
+              graphic: { // 图形中间文字
+                type: 'text',
+                left: 'center',
+                top: '40%',
+                style: {
+                  text: '总计\n1942\n人',
+                  textAlign: 'center',
+                  fill: '#FFE033',
+                  fontSize: 16
+                }
+              },
+              series: [
+                {
+                  name: '三级指标',
+                  
+                  type: 'pie',
+                  center: ['50%', '44%'],
+                  radius: ['48%', '74%'],
+                  color: colorList,
+                  itemStyle: {
+                    normal: {
+                      // 设置扇形的阴影
+                      shadowBlur: 10,
+                      shadowColor: '#666'
+                    }
+                  },
+                  labelLine: {
+                    normal: {
+                      lineStyle: {
+                        color: "rgba(255, 255, 255, 0.3)"
+                      },
+                      length: 10,
+                      length2: 15
+                    }
+                  },
+                  label: {
+                    normal: {position: 'outer',
+                      textStyle: {
+                        color: "rgba(255, 255, 255)"
+                      }
+                    }
+                  },
+                  
+                  data:
+                    [
+                      {
+                       value: 1,
+                    name: ' 电子商务',
+                    
+                  }, {
+                    value: 1,
+                    name: '航空服务',
+                    
+                  }, {
+                    value: 5,
+                    name: '护理',
+                  }, {
+                    value: 1,
+                    name: '会计',
+                    
+                  }, {
+                    value: 5,
+                    name: '珠宝玉石加工与营销',
+                   
+                  }, {
+                    value: 1,
+                    name: '酒店大专',
+                    
+                  }, {
+                    value: 5,
+                    name: '旅游服务与管理',
+                  }, {
+                    value: 1,
+                    name: '美发与形象设计',
+                    
+                  }, {
+                    value: 5,
+                    name: '数字影像技术',
+                   
+                  }, {
+                    value: 3,
+                    name: '学前（3+4）',
+                    
+                  }]
+                },
+                {
+                  name: '二级指标',
+                  type: 'pie',
+                  radius: ['24%', '50%'],
+                  center: ['50%', '44%'],
+                  color: colorList2,
+                  label: {
+                    normal: {
+                      position: 'inner'
+                    }
+                  },
+                  itemStyle: {
+                    normal: {
+                      // 设置扇形的阴影
+                      shadowBlur: 10,
+                      shadowColor: '#666'
+        
+                    }
+                  },
+                  data: [{
+                    value: 1,
+                    name: ' 学前教育（保育方向）',
+                    
+                  }, {
+                    value: 2,
+                    name: '学前教育（五年制）',
+                  }, {
+                    value: 2,
+                    name: '学前教育（大专3+2）',
+                  }, {
+                    value: 5,
+                    name: '学前教育（教育方向）',
+        			
+                  }]
+                },
+                
+              ]
+            }
+        
+
+
+ 		  
+		myxslb.setOption(option1);
+		mytu3.setOption(option3);
+		mytu4.setOption(option4);
+		mytu6.setOption(option6);
+		mytu7.setOption(option7);
+	</script>
+</html>

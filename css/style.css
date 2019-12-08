@@ -1,0 +1,265 @@
+@charset "utf-8";
+
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-weight: inherit;
+	font-style: inherit;
+	font-size: 100%;
+	font-family: "Microsoft YaHei", Tahoma, Arial, Verdana, sans-serif;
+	vertical-align: baseline;
+}
+html{
+	 height: 100%;
+}
+body {
+    text-align: center;
+    font: 12px 'Lucida Grande',lucida,helvetica,arial,sans-serif;
+    color: #333333;
+    padding: 0px;
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+background-image: url(../img/bj1.png);
+background-position: 100% 100%;
+background-size:  100% 100%;
+}
+#loginq{
+	background-color: #000;
+}
+
+.wjmm{color: #bbb;text-align:left;line-height: 30px;}
+.DengLulogo{    width: 76px;
+    margin: auto;
+}
+.denglu{
+	box-shadow: -15px 15px 15px rgba(6, 17, 47, 0.7);
+    opacity: 1;
+    top: 20px;
+    -webkit-transition-timing-function: cubic-bezier(0.68, -0.25, 0.265, 0.85);
+    -webkit-transition-property: -webkit-transform,opacity,box-shadow,top,left;
+    transition-property: transform,opacity,box-shadow,top,left;
+    -webkit-transition-duration: .5s;
+    transition-duration: .5s;
+    -webkit-transform-origin: 161px 100%;
+    -ms-transform-origin: 161px 100%;
+    transform-origin: 161px 100%;
+    -webkit-transform: rotateX(0deg);
+    transform: rotateX(0deg);
+    position: relative;
+    width: 300px;
+    /* border-top: 2px solid #D8312A; */
+    height: 360px;
+	border-radius: 10px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    padding: 40px 40px 40px 40px;
+    background: #35394a;
+    background:-webkit-gradient(linear, left bottom, right top, color-stop(0%, #0250a1), color-stop(100%, rgb(30, 44, 109)));
+    background: -webkit-linear-gradient(230deg, rgba(17, 62, 251, 0.22) 0%, rgb(2, 81, 162) 100%);
+    background:linear-gradient(230deg, rgba(17, 62, 251, 0.22) 0%, rgb(2, 81, 162) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='rgba(53, 57, 74, 0)', endColorstr='rgb(0, 0, 0)',GradientType=1 );
+}
+#loginForm{
+	    height: 280px;
+}
+h3{
+	font-size: 20px;
+    line-height: 70px;
+    color: #fff;
+    font-weight: bold;
+}
+.zhong{
+    padding: 0px 30px;
+}
+.kuang{
+	    border-radius: 5px;
+    width: 100%;
+    height: 44px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(251, 251, 251, 0.3);
+}
+input{
+	outline:none;
+	color: #FFFFFF;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #FFFFFF; opacity:0.3; 
+}
+
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #FFFFFF; opacity:0.3; 
+}
+
+input:-ms-input-placeholder{
+    color: #FFFFFF; opacity:0.3; 
+}
+
+input::-webkit-input-placeholder{
+   color: #FFFFFF; opacity:0.3; 
+}
+.youhuimg{
+	float: left;
+    padding: 12px;
+    width: 20px;
+    height: 20px;
+}
+.logininput{
+	    height: 30px;
+    margin-bottom: 20px;
+    padding: 7px 0px 0px 0px;
+    font: 16px 'Lucida Grande', arial, sans-serif;
+    background-color: #2e51af00;
+    border: none;
+}
+#user_name{
+	
+}
+#user_password{
+	
+}
+#loginbtn{
+	
+}
+.positive{
+	
+}
+button{
+	outline:none;
+	color: #FFFFFF;
+	background: #4372da;
+	width:100%;
+	height:46px;
+	border-radius:5px;
+	border-style: none;
+	cursor:pointer;
+	font-size:18px;
+}
+button:hover {
+    background: #6391f5;
+}
+
+input:-internal-autofill-selected{background-color:rgba(22, 23, 42, 0)!important;}
+
+
+/* 背景动画 */
+.particle-network-animation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100vh;
+  /* background-color: #242645; */
+}
+.particle-network-animation::before {
+  z-index: -2;
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-size: cover;
+  opacity: 0.2;
+}
+
+.glow {
+  z-index: -1;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  background-image: radial-gradient(circle closest-side, rgba(255, 255, 255, 0.025), transparent);
+}
+.DLlogo{}
+.Logotext {
+    color: #fff;
+    font-size: 24px;
+    line-height: 45px;
+    padding-bottom: 20px;
+}
+.glow-1 {
+  width: 150vw;
+  height: 150vh;
+  margin-top: -75vh;
+  margin-left: -75vw;
+  animation: glow-1-move 25s linear infinite both;
+}
+
+@keyframes glow-1-move {
+  from {
+    transform: translate(-100%, 100%);
+  }
+  to {
+    transform: translate(100%, -100%);
+  }
+}
+.glow-2 {
+  width: 100vw;
+  height: 100vh;
+  margin-top: -50vh;
+  margin-left: -50vw;
+  animation: glow-2-move 25s linear 8.3333333333s infinite both;
+}
+
+@keyframes glow-2-move {
+  from {
+    transform: translate(-100%, 0%);
+  }
+  to {
+    transform: translate(100%, 100%);
+  }
+}
+.glow-3 {
+  width: 120vw;
+  height: 120vh;
+  margin-top: -60vh;
+  margin-left: -60vw;
+  animation: glow-3-move 25s linear 16.6666666667s infinite both;
+}
+
+@keyframes glow-3-move {
+  from {
+    transform: translate(100%, 100%);
+  }
+  to {
+    transform: translate(0%, -100%);
+  }
+}
+
+
+@media all and (min-width: 1540px) and (max-width: 1920px){
+	
+	.djmes {
+    height: 100%; 
+    }
+	
+}
+@media all and (min-width: 1000px) and (max-width: 1539px){
+	
+	.djmes {
+    height: 960px;
+    background-size: 100% 80%;
+    }
+	
+}
+@media all and (max-width: 1000px) {
+	
+	.djmes {
+    background-size: 1100px;
+    }
+	
+}

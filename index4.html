@@ -1,0 +1,2895 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+	<head>
+		<meta charset="utf-8" />
+	    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+		<title>数据分析维度统计</title>
+		<link rel="stylesheet" href="css/app.css" />
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript">
+		    function timer(opj){
+		        $(opj).find('ul').animate({
+		            marginTop : "-3.5rem"  
+		            },500,function(){  
+		            $(this).css({marginTop : "0.7rem"}).find("li:first").appendTo(this);  
+		        })  
+		    }
+		    $(function(){ 
+		        var num = $('.notice_active').find('li').length;
+		        if(num > 1){
+		           var time=setInterval('timer(".notice_active")',3500);
+		            $('.gg_more a').mousemove(function(){
+		                clearInterval(time);
+		            }).mouseout(function(){
+		                time = setInterval('timer(".notice_active")',3500);
+		            }); 
+		        }
+		        
+		        $(".news_ck").click(function(){
+		            location.href = $(".notice_active .notice_active_ch").children(":input").val();
+		        })
+		    });
+		</script>
+		<script src="js/echarts.min.js"></script>
+		<!-- <script src="js/china.js"></script> -->
+	</head>
+	
+	<body class="cc1366">
+		<div class="header">
+			<h1 class="header-title" style="color: #FFFFFF;">重庆女职中大数据分析</h1>
+		</div>
+		<div class="wrapper">
+			<div class="content">
+				<div class="col col-l">
+					<div class="xpanel-wrapper xpanel-wrapper-50">
+						<div class="xpanel xpanel-l-t Bj">
+							<div class="title">职业知识图谱</div>
+							<div class="TuBiao" id="GuanxiTu" style="width: 100%;height: 90%;" ></div>
+							
+						</div>
+					</div>
+					<div class="xpanel-wrapper xpanel-wrapper-50">
+						<div class="xpanel xpanel-l-b Bj">
+							<div class="title">职业规划数据汇总</div>
+							<div class="TuBiao" id="BinTu" style="width: 100%;height: 90%;" ></div>
+							
+						</div>
+					</div>
+				</div>
+				<div class="col col-c2">
+					<div class="xpanel-wrapper xpanel-wrapper-70">
+						<div class="xpanel no-bg">
+							<div class="DiTu Bj">
+								<div class="title">词云</div>
+								<iframe src="optionKeywords.html" style="width: 99%;height: 92%; border: none; margin: auto;"></iframe>
+								<!-- <div class="TuBiao" id="main" style="width: 100%;height: 90%;" ></div> -->
+							</div>
+							<div class="GuanxiTu">
+								<div class="GuanxiTu1 Bj">
+									<div class="title">职业学习（Top10）</div>
+									<div class="huadong">
+									    <div class="notice_active">
+									        <ul>
+									            <li class="notice_active_ch">
+									                <div class="paiming" id="paiming1" style="width: 100%;height: 96%;" ></div>
+									            </li>
+									            <li class="notice_active_ch">
+									                <div class="paiming" id="paiming2" style="width: 100%;height: 96%;" ></div>
+									            </li>
+									        </ul>   
+									    </div>
+									</div>
+								</div>
+								<div class="GuanxiTu2 Bj">
+									<div class="title">职场追踪</div>
+									<div class="paiming" id="paiming3" style="width: 100%;height: 90%;" ></div>
+								</div>
+							</div>
+							
+						</div>
+					</div>
+					<div class="xpanel-wrapper xpanel-wrapper-30">
+						<div class="xpanel xpanel-c-b">
+							<div class="ZuzhuangTu Bj">
+								<div class="title">就业、创业愿景</div>
+								<div class="TuBiao" id="ZuzhuangTu1" style="width: 100%;height: 84%;" ></div>
+							</div>
+							<div class="ZuzhuangTu Bj">
+								<div class="title">生涯测评</div>
+								<div class="TuBiao" id="ZuzhuangTu2" style="width: 100%;height: 84%;" ></div>
+							</div>
+							<div class="ZuzhuangTu Bj">
+								<div class="title">社团实践好评</div>
+								<div class="TuBiao" id="ZuzhuangTu3" style="width: 100%;height: 84%;" ></div>
+							</div>
+							<div class="ZuzhuangTu Bj">
+								<div class="title">大赛排名</div>
+								<div class="TuBiao" id="ZuzhuangTu4" style="width: 100%;height: 84%;" ></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+	// var myDiTu = echarts.init(document.getElementById('DiTu'));
+	var myGuanxiTu = echarts.init(document.getElementById('GuanxiTu'));
+	var myBinTu = echarts.init(document.getElementById('BinTu'));
+	var mypaiming1 = echarts.init(document.getElementById('paiming1'));
+	var mypaiming2 = echarts.init(document.getElementById('paiming2'));
+	var mypaiming3 = echarts.init(document.getElementById('paiming3'));
+	var myZuzhuangTu1 = echarts.init(document.getElementById('ZuzhuangTu1'));
+	var myZuzhuangTu2 = echarts.init(document.getElementById('ZuzhuangTu2'));
+	var myZuzhuangTu3 = echarts.init(document.getElementById('ZuzhuangTu3'));
+	var myZuzhuangTu4 = echarts.init(document.getElementById('ZuzhuangTu4'));
+	// 词云
+ // var myChart = echarts.init(document.getElementById('main'));
+
+	 var option2= {
+     // backgroundColor: '#0a1247',
+    // title: {
+    //     text: "女子职中开设专业",
+    //     subtext: "ZBH",
+    //     top: "top",
+    //     left: "center"
+    // },
+    tooltip: {},
+    // color:['#83e0ff','#45f5ce','#fff'],
+  
+    toolbox: {
+        show: true,
+        
+    },
+    animationDuration: 1000,
+    animationEasingUpdate: 'quinticInOut',
+    series: [{
+        name: '女子职中开设专业',
+        type: 'graph',
+        layout: 'force',
+        
+        force: {
+            repulsion: 150,
+            gravity: 0.1,
+            edgeLength: 30,
+            layoutAnimation: true,
+        },
+        data: [{
+            "name": "女子职中开设专业",
+            // "x": 0,
+            // y: 0,
+            "symbolSize": 50,
+            "draggable": "true",
+            "value": 15,
+           itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#FF9F7F'
+                    }, {
+                        offset: 1,
+                        color: '#FB7293'
+                    }]),
+                }
+            },
+        
+        }, {
+            "name": "学前教育",
+            "value": 10,
+            "symbolSize": 40,
+            "category": "学前教育",
+            "draggable": "true",
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#157eff'
+                    }, {
+                        offset: 1,
+                        color: '#35c2ff'
+                    }]),
+                }
+            },
+        }, {
+            "name": "幼儿园教育教学",
+            "symbolSize": 30,
+            "category": "幼儿园教育教学",
+            "draggable": "true",
+            "value": 1,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#157eff'
+                    }, {
+                        offset: 1,
+                        color: '#35c2ff'
+                    }]),
+                }
+            }, 
+        }, {
+            "name": "主班教师",
+            "symbolSize": 20,
+            "category": "幼儿园教育教学",
+            "draggable": "true",
+            "value": 1,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#6717CE'
+                    }, {
+                        offset: 1,
+                        color: '#2C6BF8'
+                    }]),
+                }
+            },
+        }, {
+            "name": "副班教师",
+            "symbolSize": 20,
+            "category": "幼儿园教育教学",
+            "draggable": "true",
+            "value": 1,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#6717CE'
+                    }, {
+                        offset: 1,
+                        color: '#2C6BF8'
+                    }]),
+                }
+            },
+        }, {
+            "name": "配班教师",
+            "symbolSize": 20,
+            "category": "幼儿园教育教学",
+            "draggable": "true",
+            "value": 1,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#6717CE'
+                    }, {
+                        offset: 1,
+                        color: '#2C6BF8'
+                    }]),
+                }
+            },
+        }, {
+            "name": "后勤教师",
+            "symbolSize": 20,
+            "category": "幼儿园教育教学",
+            "draggable": "true",
+            "value": 1,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#6717CE'
+                    }, {
+                        offset: 1,
+                        color: '#2C6BF8'
+                    }]),
+                }
+            },
+        }, {
+            "name": "园医",
+            "symbolSize": 20,
+            "category": "幼儿园教育教学",
+            "draggable": "true",
+            "value": 1,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#6717CE'
+                    }, {
+                        offset: 1,
+                        color: '#2C6BF8'
+                    }]),
+                }
+            },
+        }, {
+            "name": "班车司机",
+            "symbolSize": 20,
+            "category": "幼儿园教育教学",
+            "draggable": "true",
+            "value": 1,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#6717CE'
+                    }, {
+                        offset: 1,
+                        color: '#2C6BF8'
+                    }]),
+                }
+            },
+        }, {
+            "name": "食堂人员",
+            "symbolSize": 20,
+            "category": "幼儿园教育教学",
+            "draggable": "true",
+            "value": 1,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#6717CE'
+                    }, {
+                        offset: 1,
+                        color: '#2C6BF8'
+                    }]),
+                }
+            },
+        }, {
+            "name": "清洁员",
+            "symbolSize": 20,
+            "category": "幼儿园教育教学",
+            "draggable": "true",
+            "value": 1,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#6717CE'
+                    }, {
+                        offset: 1,
+                        color: '#2C6BF8'
+                    }]),
+                }
+            },
+        }, {
+            "name": "生活教师",
+            "symbolSize": 20,
+            "category": "幼儿园教育教学",
+            "draggable": "true",
+            "value": 1,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#6717CE'
+                    }, {
+                        offset: 1,
+                        color: '#2C6BF8'
+                    }]),
+                }
+            },
+        }, {
+            "name": "幼儿园管理",
+            "symbolSize": 30,
+            "category": "幼儿园管理",
+            "draggable": "true",
+            "value": 1,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#157eff'
+                    }, {
+                        offset: 1,
+                        color: '#35c2ff'
+                    }]),
+                }
+            }, 
+        }, {
+            "name": "后勤主任",
+            "symbolSize": 20,
+            "category": "幼儿园管理",
+            "draggable": "true",
+            "value": 1,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#6717CE'
+                    }, {
+                        offset: 1,
+                        color: '#2C6BF8'
+                    }]),
+                }
+            },
+        }, {
+            "name": "行政园长",
+            "symbolSize": 20,
+            "category": "幼儿园管理",
+            "draggable": "true",
+            "value": 1,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#6717CE'
+                    }, {
+                        offset: 1,
+                        color: '#2C6BF8'
+                    }]),
+                }
+            },
+        }, {
+            "name": "教学园长",
+            "symbolSize": 20,
+            "category": "幼儿园管理",
+            "draggable": "true",
+            "value": 1,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#6717CE'
+                    }, {
+                        offset: 1,
+                        color: '#2C6BF8'
+                    }]),
+                }
+            },
+        }, {
+            "name": "学前教育培训",
+            "symbolSize": 30,
+            "category": "学前教育培训",
+            "draggable": "true",
+            "value": 1,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#157eff'
+                    }, {
+                        offset: 1,
+                        color: '#35c2ff'
+                    }]),
+                }
+            }, 
+        }, {
+            "name": "常规课程干事",
+            "symbolSize": 20,
+            "category": "学前教育培训",
+            "draggable": "true",
+            "value": 1,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#6717CE'
+                    }, {
+                        offset: 1,
+                        color: '#2C6BF8'
+                    }]),
+                }
+            },
+        }, {
+            "name": "英语教学干事",
+            "symbolSize": 20,
+            "category": "学前教育培训",
+            "draggable": "true",
+            "value": 1,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#6717CE'
+                    }, {
+                        offset: 1,
+                        color: '#2C6BF8'
+                    }]),
+                }
+            },    
+        }, {
+            "name": "护理美容",
+            "value": 60,
+            "symbolSize": 40,
+            "category": "护理美容",
+            "draggable": "true",
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#01acca'
+                    }, {
+                        offset: 1,
+                        color: '#5adbe7'
+                    }]),
+                }
+            },
+        }, {
+            "name": "护理师",
+            "symbolSize": 20,
+            "category": "护理",
+            "draggable": "true",
+            "value": 1,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#0e8844'
+                    }, {
+                        offset: 1,
+                        color: '#32dac3'
+                    }]),
+                }
+            },
+        }, {
+            "name": "护理",
+            "symbolSize": 30,
+            "category": "护理",
+            "draggable": "true",
+            "value": 1,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#01acca'
+                    }, {
+                        offset: 1,
+                        color: '#5adbe7'
+                    }]),
+                }
+            },
+        }, {
+            "name": "美发与形象设计",
+            "symbolSize": 30,
+            "category": "美发与形象设计",
+            "draggable": "true",
+            "value": 1,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#01acca'
+                    }, {
+                        offset: 1,
+                        color: '#5adbe7'
+                    }]),
+                }
+            },
+        }, {
+            "name": "形象设计师",
+            "symbolSize": 20,
+            "category": "美发与形象设计",
+            "draggable": "true",
+            "value": 1,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#0e8844'
+                    }, {
+                        offset: 1,
+                        color: '#32dac3'
+                    }]),
+                }
+            },
+        }, {
+            "name": "美发师",
+            "symbolSize": 20,
+            "category": "美发与形象设计",
+            "draggable": "true",
+            "value": 1,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#0e8844'
+                    }, {
+                        offset: 1,
+                        color: '#32dac3'
+                    }]),
+                }
+            },
+        }, {
+            "name": "美容师",
+            "symbolSize": 20,
+            "category": "美容美体",
+            "draggable": "true",
+            "value": 1,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#0e8844'
+                    }, {
+                        offset: 1,
+                        color: '#32dac3'
+                    }]),
+                }
+            },
+        }, {
+            "name": "美容美体",
+            "symbolSize": 30,
+            "category": "美容美体",
+            "draggable": "true",
+            "value": 1,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#01acca'
+                    }, {
+                        offset: 1,
+                        color: '#5adbe7'
+                    }]),
+                }
+            },
+        }, {
+            "name": "珠宝鉴定师",
+            "symbolSize": 20,
+            "category": "珠宝鉴定",
+            "draggable": "true",
+            "value": 1,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#0e8844'
+                    }, {
+                        offset: 1,
+                        color: '#32dac3'
+                    }]),
+                }
+            },
+        }, {
+            "name": "珠宝鉴定",
+            "symbolSize": 30,
+            "category": "珠宝鉴定",
+            "draggable": "true",
+            "value": 1,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#01acca'
+                    }, {
+                        offset: 1,
+                        color: '#5adbe7'
+                    }]),
+                }
+            },
+        }, {
+            "name": "销售员",
+            "symbolSize": 20,
+            "category": "销售",
+            "draggable": "true",
+            "value": 1,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#0e8844'
+                    }, {
+                        offset: 1,
+                        color: '#32dac3'
+                    }]),
+                }
+            },
+        }, {
+            "name": "销售",
+            "symbolSize": 30,
+            "category": "销售",
+            "draggable": "true",
+            "value": 1,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#01acca'
+                    }, {
+                        offset: 1,
+                        color: '#5adbe7'
+                    }]),
+                }
+            },
+        }, {
+            "name": "旅游商贸",
+            "value": 30,
+            "symbolSize": 40,
+            "category": "旅游商贸",
+            "draggable": "true",
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#ffb402'
+                    }, {
+                        offset: 1,
+                        color: '#ffdc84'
+                    }]),
+                }
+            },
+        }, {
+            "name": "高星级饭店运营管理类职位",
+            "symbolSize": 20,
+            "category": "高星级饭店运营与管理",
+            "draggable": "true",
+            "value": 1,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#efac0f'
+                    }, {
+                        offset: 1,
+                        color: '#ef430f'
+                    }]),
+                }
+            },
+        }, {
+            "name": "高星级饭店运营与管理",
+            "symbolSize": 30,
+            "category": "高星级饭店运营与管理",
+            "draggable": "true",
+            "value": 1,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#ffb402'
+                    }, {
+                        offset: 1,
+                        color: '#ffdc84'
+                    }]),
+                }
+            },
+        }, {
+            "name": "航空服务员",
+            "symbolSize": 20,
+            "category": "航空服务",
+            "draggable": "true",
+            "value": 1,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#efac0f'
+                    }, {
+                        offset: 1,
+                        color: '#ef430f'
+                    }]),
+                }
+            },
+        }, {
+            "name": "航空服务",
+            "symbolSize": 30,
+            "category": "航空服务",
+            "draggable": "true",
+            "value": 1,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#ffb402'
+                    }, {
+                        offset: 1,
+                        color: '#ffdc84'
+                    }]),
+                }
+            },
+        }, {
+            "name": "旅游外语老师",
+            "symbolSize": 20,
+            "category": "旅游外语",
+            "draggable": "true",
+            "value": 1,
+             itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#efac0f'
+                    }, {
+                        offset: 1,
+                        color: '#ef430f'
+                    }]),
+                }
+            },
+        }, {
+            "name": "旅游外语",
+            "symbolSize": 30,
+            "category": "旅游外语",
+            "draggable": "true",
+            "value": 1,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#ffb402'
+                    }, {
+                        offset: 1,
+                        color: '#ffdc84'
+                    }]),
+                }
+            },
+        }, {
+            "name": "导游",
+            "symbolSize": 20,
+            "category": "旅游服务与管理",
+            "draggable": "true",
+            "value": 1,
+             itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#efac0f'
+                    }, {
+                        offset: 1,
+                        color: '#ef430f'
+                    }]),
+                }
+            },
+        }, {
+            "name": "旅游服务与管理",
+            "symbolSize": 30,
+            "category": "旅游服务与管理",
+            "draggable": "true",
+            "value": 1,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#ffb402'
+                    }, {
+                        offset: 1,
+                        color: '#ffdc84'
+                    }]),
+                }
+            },
+        }, {
+            "name": "财务员",
+            "symbolSize": 20,
+            "category": "会计",
+            "draggable": "true",
+            "value": 1,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#efac0f'
+                    }, {
+                        offset: 1,
+                        color: '#ef430f'
+                    }]),
+                }
+            },
+        }, {
+            "name": "会计",
+            "symbolSize": 30,
+            "category": "会计",
+            "draggable": "true",
+            "value": 1,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#ffb402'
+                    }, {
+                        offset: 1,
+                        color: '#ffdc84'
+                    }]),
+                }
+            },
+        }, {
+            "name": "网络营销师",
+            "symbolSize": 20,
+            "category": "电子商务",
+            "draggable": "true",
+            "value": 1,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#efac0f'
+                    }, {
+                        offset: 1,
+                        color: '#ef430f'
+                    }]),
+                }
+            },
+        }, {
+            "name": "电子商务",
+            "symbolSize": 30,
+            "category": "电子商务",
+            "draggable": "true",
+            "value": 1,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#ffb402'
+                    }, {
+                        offset: 1,
+                        color: '#ffdc84'
+                    }]),
+                }
+            },
+        }, {
+            "name": "快递员",
+            "symbolSize": 20,
+            "category": "物流服务与管理",
+            "draggable": "true",
+            "value": 1,
+           itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#efac0f'
+                    }, {
+                        offset: 1,
+                        color: '#ef430f'
+                    }]),
+                }
+            },
+        }, {
+            "name": "物流服务与管理",
+            "symbolSize": 30,
+            "category": "物流服务与管理",
+            "draggable": "true",
+            "value": 1,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#ffb402'
+                    }, {
+                        offset: 1,
+                        color: '#ffdc84'
+                    }]),
+                }
+            },
+        }, {
+            "name": "摄影师",
+            "symbolSize": 20,
+            "category": "数字影像技术",
+            "draggable": "true",
+            "value": 1,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#efac0f'
+                    }, {
+                        offset: 1,
+                        color: '#ef430f'
+                    }]),
+                }
+            },
+        }, {
+            "name": "数字影像技术",
+            "symbolSize": 30,
+            "category": "数字影像技术",
+            "draggable": "true",
+            "value": 1,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#ffb402'
+                    }, {
+                        offset: 1,
+                        color: '#ffdc84'
+                    }]),
+                }
+            },
+       }],
+        links: [{
+            "source": "女子职中开设专业",
+            "target": "学前教育"
+        }, {
+            "source": "学前教育培训",
+            "target": "英语教学干事"
+        }, {
+            "source": "学前教育培训",
+            "target": "常规课程干事"
+        }, {
+            "source": "学前教育",
+            "target": "学前教育培训"
+        }, {
+            "source": "幼儿园管理",
+            "target": "行政园长"
+        }, {
+            "source": "幼儿园管理",
+            "target": "教学园长"
+        }, {
+            "source": "幼儿园管理",
+            "target": "后勤主任"
+        }, {
+            "source": "学前教育",
+            "target": "幼儿园管理"
+        }, {
+            "source": "幼儿园教育教学",
+            "target": "后勤教师"
+        }, {
+            "source": "幼儿园教育教学",
+            "target": "园医"
+        }, {
+            "source": "幼儿园教育教学",
+            "target": "班车司机"
+        }, {
+            "source": "幼儿园教育教学",
+            "target": "主班教师"
+        }, {
+            "source": "幼儿园教育教学",
+            "target": "副班教师"
+        }, {
+            "source": "幼儿园教育教学",
+            "target": "配班教师"
+        }, {
+            "source": "幼儿园教育教学",
+            "target": "生活教师"
+        }, {
+            "source": "幼儿园教育教学",
+            "target": "食堂人员"
+        }, {
+            "source": "幼儿园教育教学",
+            "target": "清洁员"
+        }, {
+            "source": "学前教育",
+            "target": "幼儿园教育教学"
+        }, {
+            "source": "女子职中开设专业",
+            "target": "护理美容"
+        
+        }, {
+            "source": "护理师",
+            "target": "护理"
+        }, {
+            "source": "护理美容",
+            "target": "护理"
+        }, {
+            "source": "形象设计师",
+            "target": "美发与形象设计"
+        }, {
+            "source": "护理美容",
+            "target": "美发与形象设计"
+        }, {
+            "source": "美发师",
+            "target": "美发与形象设计"
+        }, {
+            "source": "美容师",
+            "target": "美容美体"
+        }, {
+            "source": "护理美容",
+            "target": "美容美体"
+        }, {
+            "source": "珠宝鉴定师",
+            "target": "珠宝鉴定"
+        }, {
+            "source": "护理美容",
+            "target": "珠宝鉴定"
+        }, {
+            "source": "销售",
+            "target": "销售员"
+        }, {
+            "source": "护理美容",
+            "target": "销售"
+        }, {
+            "source": "女子职中开设专业",
+            "target": "旅游商贸"
+        }, {
+            "source": "高星级饭店运营与管理",
+            "target": "高星级饭店运营管理类职位"
+        }, {
+            "source": "旅游商贸",
+            "target": "高星级饭店运营与管理"
+        }, {
+            "source": "航空服务",
+            "target": "航空服务员"
+        }, {
+            "source": "旅游商贸",
+            "target": "航空服务"
+        }, {
+            "source": "旅游外语老师",
+            "target": "旅游外语"
+        }, {
+            "source": "旅游商贸",
+            "target": "旅游外语"
+        }, {
+            "source": "导游",
+            "target": "旅游服务与管理"
+        }, {
+            "source": "旅游商贸",
+            "target": "旅游服务与管理"
+        }, {
+            "source": "财务员",
+            "target": "会计"
+        }, {
+            "source": "旅游商贸",
+            "target": "会计"
+        }, {
+            "source": "电子商务",
+            "target": "网络营销师"
+        }, {
+            "source": "旅游商贸",
+            "target": "电子商务"
+        }, {
+            "source": "物流服务与管理",
+            "target": "快递员"
+        }, {
+            "source": "旅游商贸",
+            "target": "物流服务与管理"
+        }, {
+            "source": "数字影像技术",
+            "target": "摄影师"
+        }, {
+            "source": "旅游商贸",
+            "target": "数字影像技术"
+        }],
+        categories: [{
+            'name': '女子职中开设专业'
+        }, {
+            'name': '护理美容'
+        }, {
+            'name': '护理'
+        }, {
+            'name': '美发与形象设计'
+        }, {
+            'name': '美容美体'
+        }, {
+            'name': '珠宝鉴定'
+        }, {
+            'name': '销售'
+        }, {
+            'name': '高星级饭店运营与管理'
+        }, {
+            'name': '航空服务'
+        }, {
+            'name': '会计'
+        }, {
+            'name': '旅游服务与管理'
+        }, {
+            'name': '数字影像技术'
+        }, {
+            'name': '物流服务与管理'
+        }, {
+            'name': '电子商务'
+        }, {
+            'name': '幼儿园管理'
+        }, {
+            'name': '幼儿园教育教学'
+        }, {
+            'name': '幼儿园管理'
+        }, {
+            'name': '学前教育培训'
+        }, {
+            'name': '学前教育'  //子级的上一负级名称必须要加在categories里面。
+        }, {
+            'name': '旅游商贸'
+        }, {
+        
+
+        }],
+        focusNodeAdjacency: true,
+        roam: true,
+        label: {
+            normal: {
+                 textStyle: {
+					color: '#fff',
+				},
+				fontSize: 12,
+                show: true,
+                position: 'top',
+
+            }
+        },
+        lineStyle: {
+            normal: {
+                color: 'source',
+                curveness: 0,
+                type: "solid"
+            }
+        }
+    }]
+};
+		
+     var option3 = {
+    	 grid: {//统计图距离边缘的距离
+    	 	top: '2%',
+    	 	left: '3%',
+    	 	right: '5%',
+    	 	bottom: '20%'
+    	 },
+    	  legend: {
+               x: 'center',
+               bottom: '0%',
+               itemGap: 20,
+              data:['会计事务所','律师事务所','教育','房地产','互联网/电子商务','护理'],
+               itemWidth :18,
+    			itemHeight :10,
+               textStyle: {
+                   color: '#fff',
+               }
+           },
+    series : [
+        {
+            name: '完成率',
+            type: 'pie',
+            radius : [40, 80],
+            data:[
+                {
+                    value: 125,
+                    name: '会计事务所',
+                    itemStyle: {
+                        normal: {
+                            color: {
+                                colorStops: [{
+                                    offset: 0,
+                                    color: '#67aeff' // 0% 处的颜色
+                                }, {
+                                    offset: 1,
+                                    color: '#3e86ec' // 100% 处的颜色
+                                }]
+                            },
+                            
+                        }
+                    }
+                },
+                 {
+                    value: 115,
+                    name: '律师事务所',
+                    itemStyle: {
+                        normal: {
+                            color: {
+                                colorStops: [{
+                                    offset: 0,
+                                    color: '#399be4' // 0% 处的颜色
+                                }, {
+                                    offset: 1,
+                                    color: '#78d8ff' // 100% 处的颜色
+                                }]
+                            },
+                        }
+                    }
+                },
+                 {
+                        value: 95,
+                        name: '教育',
+                        itemStyle: {
+                            normal: {
+                                color: {
+                                    colorStops: [{
+                                        offset: 0,
+                                        color: '#33c6ac' // 0% 处的颜色
+                                    }, {
+                                        offset: 1,
+                                        color: '#50fed9' // 100% 处的颜色
+                                    }]
+                                },
+                            }
+                        }
+                    },
+                    {
+                        value:75,
+                        name: '房地产',
+                        itemStyle: {
+                            normal: {
+                                color: {
+                                    colorStops: [{
+                                        offset: 0,
+                                        color: '#157fef' // 0% 处的颜色
+                                    }, {
+                                        offset: 1,
+                                        color: '#2f8ae5' // 100% 处的颜色
+                                    }]
+                                },
+                            }
+                        }
+                    },
+                    {
+                        value: 55,
+                        name: '互联网/电子商务',
+                        itemStyle: {
+                            normal: {
+                                color: {
+                                    colorStops: [{
+                                        offset: 0,
+                                        color: '#22539f' // 0% 处的颜色
+                                    }, {
+                                        offset: 1,
+                                        color: '#1d4e9a' // 100% 处的颜色
+                                    }]
+                                },
+                            }
+                        }
+                    },
+                    {
+                        value: 20,
+                        name: '护理',
+                        itemStyle: {
+                            normal: {
+                               color: {
+                                    colorStops: [{
+                                        offset: 0,
+                                        color: '#448df6' // 0% 处的颜色
+                                    }, {
+                                        offset: 1,
+                                        color: '#3d75e2' // 100% 处的颜色
+                                    }]
+                                },
+                            }
+                        }
+                    }
+    
+            ],
+            roseType: 'angle',
+            color: ['#000', '#4372da'],
+    		center : ['50%', '45%'],
+            label: {
+                normal: {
+                    textStyle: {
+                        color:  'rgba(255, 255,255, 0.6)',
+                    },
+                  
+                 formatter: function (param) {
+                    console.log(param);
+                    return param.name + ':\n' + param.value + '%';
+                    }   
+                }
+            },
+            labelLine: {
+                normal: {
+                    lineStyle: {
+                        color: '#ddd'
+                    }
+                }
+            },
+            itemStyle: {
+                normal: {
+                    shadowBlur: 200,
+                    shadowColor: 'rgba(0, 0, 0, 0)'
+                }
+            }
+        }
+    ]
+    };
+
+	var option4 = {
+		title: {
+		        text: '最爱学的前10名学生',
+		        x: 'left',
+		        top: "0",
+		        textStyle: {
+		            color: '#fff',
+		            fontSize: 14
+		        }
+		    },
+	    grid: {
+	        left: '2%',
+	        top: '6%',
+	        bottom: '1%',
+	    },
+	    tooltip: {      //可以配合下方的tooltip出来单个悬浮信息.
+			trigger: 'item',
+			textStyle: {
+				fontSize: 12,
+			},
+	    },
+	    xAxis: {
+	        type: 'value',
+	        splitLine: {
+	            show: false
+	        },
+	        axisLabel: {
+	            show: false
+	        },
+	        axisLine: {
+	            show: false
+	        },
+	        axisTick: {
+	            show: false
+	        }
+	    },
+	    yAxis: {
+	        type: 'category',
+	        data: [
+	        '10热爱学习的学生',
+	        '9热爱学习的学生',
+	        '8热爱学习的学生',
+			'7热爱学习的学生',
+			'6热爱学习的学生',
+			'5热爱学习的学生',
+			'4热爱学习的学生',
+			'3热爱学习的学生',
+			'2热爱学习的学生',
+			'1热爱学习的学生',
+	        ],
+	        splitLine: {
+	            show: false
+	        },
+	        axisLine: {
+	            show: false
+	        },
+	        axisTick: {
+	            show: false
+	        },
+	        axisLabel: {
+	                show:false
+	            }
+	    },
+	    series: [{
+	        type: 'bar',
+	        // data: [ 0,0,0, 0, 0, 0, 0, 210, 1150, 1310,1360, 1440, 1530, 1550, 3480,3850, 4000, 4000, 4000, 4690,23590],
+			data: [249, 260, 280,289, 300, 350,360, 370, 380, 400],
+	        barWidth: 10,
+	        z:10,
+	        itemStyle: {
+	          normal: {
+	        	color: new echarts.graphic.LinearGradient(1, 0, 0, 0, [{
+	        	  offset: 0,
+	        	  color: '#57eabf' // 0% 处的颜色
+	        	}, {
+	        	  offset: 1,
+	        	  color: '#2563f9' // 100% 处的颜色
+	        	}], false),
+	        	barBorderRadius: 14
+	          }
+	        },
+	            label: {
+	                show: true,
+	                fontSize: 20,
+	                distance: 10,
+	                position: [0, "-100%"],
+	                offset: [0, -50],
+	                normal: {
+	                    show: true,
+	                    position: 'right',
+	                    color: '#fff',
+	                    //TODO 
+	                }
+	            },
+	    }, {
+	            // current data
+	             type: 'bar',
+	            symbol: 'rect',
+	            symbolRepeat: 'fixed',
+	            symbolMargin: '70%',
+	            symbolClip: true,
+	            symbolSize: [10,70],
+	            symbolBoundingData: 1000,
+	                  
+	                label: {
+	                    normal: {
+	                        show: true,
+	                        position: 'right',
+	                        offset: [-10, 70],
+	                        textStyle: {
+	                            color: 'darkorange',
+	                            fontSize: 18
+	                        }
+	                    }
+	                },
+	           data: [
+	                {
+	                    "value":0,
+	                    label: {
+	                        normal: {
+	                            show: true,
+	                            position: [-10, -20],
+	                            formatter:'{b}',
+	                            offset: [10, 0],
+	                            textStyle: {
+	                                color: '#aaa',
+	                                fontSize: 12
+	                            }
+	                        }
+	                    }
+	                },
+					{
+					    "value":0,
+					    label: {
+					        normal: {
+					            show: true,
+					            position: [-10, -20],
+					            formatter:'{b}',
+					            offset: [10, 0],
+					            textStyle: {
+					                color: '#aaa',
+					                fontSize: 12
+					            }
+					        }
+					    }
+					},
+	                {
+	                    "value":0,
+	                    label: {
+	                        normal: {
+	                            show: true,
+	                            position: [-10, -20],
+	                            formatter:'{b}',
+	                            offset: [10, 0],
+	                            textStyle: {
+	                                color: '#aaa',
+	                                fontSize: 12
+	                            }
+	                        }
+	                    }
+	                },
+					{
+					    "value":0,
+					    label: {
+					        normal: {
+					            show: true,
+					            position: [-10, -20],
+					            formatter:'{b}',
+					            offset: [10, 0],
+					            textStyle: {
+					                color: '#aaa',
+					                fontSize: 12
+					            }
+					        }
+					    }
+					},
+					{
+					    "value":0,
+					    label: {
+					        normal: {
+					            show: true,
+					            position: [-10, -20],
+					            formatter:'{b}',
+					            offset: [10, 0],
+					            textStyle: {
+					                color: '#aaa',
+					                fontSize: 12
+					            }
+					        }
+					    }
+					},
+					{
+					    "value":0,
+					    label: {
+					        normal: {
+					            show: true,
+					            position: [-10, -20],
+					            formatter:'{b}',
+					            offset: [10, 0],
+					            textStyle: {
+					                color: '#aaa',
+					                fontSize: 12
+					            }
+					        }
+					    }
+					},
+					{
+					    "value":0,
+					    label: {
+					        normal: {
+					            show: true,
+					            position: [-10, -20],
+					            formatter:'{b}',
+					            offset: [10, 0],
+					            textStyle: {
+					                color: '#aaa',
+					                fontSize: 12
+					            }
+					        }
+					    }
+					},
+					{
+					    "value":0,
+					    label: {
+					        normal: {
+					            show: true,
+					            position: [-10, -20],
+					            formatter:'{b}',
+					            offset: [10, 0],
+					            textStyle: {
+					                color: '#aaa',
+					                fontSize: 12
+					            }
+					        }
+					    }
+					},
+					{
+					    "value":0,
+					    label: {
+					        normal: {
+					            show: true,
+					            position: [-10, -20],
+					            formatter:'{b}',
+					            offset: [10, 0],
+					            textStyle: {
+					                color: '#aaa',
+					                fontSize: 12
+					            }
+					        }
+					    }
+					},
+	                {
+	                    "value":0,
+	                    label: {
+	                        normal: {
+	                            show: true,
+	                            position: [-10, -20],
+	                            formatter:'{b}',
+	                            offset: [10, 0],
+	                            textStyle: {
+	                                color: '#aaa',
+	                                fontSize: 12
+	                            }
+	                        }
+	                    }
+	                },],
+	            z: 99999999,
+	           
+	        }, {
+	        type: 'bar',
+	        // data: [4000, 10000, 10000, 2000, 6000,5000, 5000, 5000,5000, 5000,5000, 5000, 3480, 5000, 4000,4000, 4000, 4810, 37000],
+	       data: [ 400, 400, 400,400, 400, 400,400, 400, 400,400],
+	        barWidth: 10,
+			tooltip: {
+						show: false
+					},
+	        barGap: '-100%',
+	        label: { 
+	            normal: {
+	                show: false,
+	            }
+	        },
+	         itemStyle:{
+	            normal:{
+	                color: 'rgba(0,0,0, 0.3)',
+	                barBorderRadius : 10
+	            }
+	        }
+	    }]
+	};
+	
+	var option5 = {
+	    title: {
+	            text: '前10名最热门课程',
+	            x: 'left',
+	            top: "0",
+	            textStyle: {
+	                color: '#fff',
+	                fontSize: 14
+	            }
+	        },
+	    grid: {
+	        left: '2%',
+	        top: '6%',
+	        bottom: '1%',
+	    },
+	    tooltip: {      //可以配合下方的tooltip出来单个悬浮信息.
+			trigger: 'item',
+			textStyle: {
+				fontSize: 12,
+			},
+	    },
+	    xAxis: {
+	        type: 'value',
+	        splitLine: {
+	            show: false
+	        },
+	        axisLabel: {
+	            show: false
+	        },
+	        axisLine: {
+	            show: false
+	        },
+	        axisTick: {
+	            show: false
+	        }
+	    },
+	    yAxis: {
+	        type: 'category',
+	        data: [
+	        '10热门课程1',
+	        '9热门课程1',
+	        '8热门课程1',
+			'7热门课程1',
+			'6热门课程1',
+			'5热门课程1',
+			'4热门课程1',
+			'3热门课程1',
+			'2热门课程1',
+			'1热门课程1',
+	        ],
+	        splitLine: {
+	            show: false
+	        },
+	        axisLine: {
+	            show: false
+	        },
+	        axisTick: {
+	            show: false
+	        },
+	        axisLabel: {
+	                show:false
+	            }
+	    },
+	    series: [{
+	        type: 'bar',
+	        // data: [ 0,0,0, 0, 0, 0, 0, 210, 1150, 1310,1360, 1440, 1530, 1550, 3480,3850, 4000, 4000, 4000, 4690,23590],
+			data: [249, 260, 280,289, 300, 350,360, 370, 380, 400],
+	        barWidth: 10,
+	        z:10,
+	        itemStyle: {
+	            normal:{
+	                color: new echarts.graphic.LinearGradient(
+	                    0, 0, 1, 0,
+	                    [{
+	                        offset: 0,
+	                        color: '#f05f1c' /*#0085FA*/
+	                    }, {
+	                        offset: 0.7,
+	                        color: '#e9ea07' /*#00BBFD*/
+	                    }]),
+	                barBorderRadius: 15
+	            }},
+	            label: {
+	                show: true,
+	                fontSize: 20,
+	                distance: 10,
+	                position: [0, "-100%"],
+	                offset: [0, -50],
+	                normal: {
+	                    show: true,
+	                    position: 'right',
+	                    color: '#fff',
+	                    //TODO 
+	                }
+	            },
+	    }, {
+	            // current data
+	             type: 'bar',
+	            symbol: 'rect',
+	            symbolRepeat: 'fixed',
+	            symbolMargin: '70%',
+	            symbolClip: true,
+	            symbolSize: [10,70],
+	            symbolBoundingData: 1000,
+	                  
+	                label: {
+	                    normal: {
+	                        show: true,
+	                        position: 'right',
+	                        offset: [-10, 70],
+	                        textStyle: {
+	                            color: 'darkorange',
+	                            fontSize: 18
+	                        }
+	                    }
+	                },
+	           data: [
+	                {
+	                    "value":0,
+	                    label: {
+	                        normal: {
+	                            show: true,
+	                            position: [-10, -20],
+	                            formatter:'{b}',
+	                            offset: [10, 0],
+	                            textStyle: {
+	                                color: '#aaa',
+	                                fontSize: 12
+	                            }
+	                        }
+	                    }
+	                },
+					{
+					    "value":0,
+					    label: {
+					        normal: {
+					            show: true,
+					            position: [-10, -20],
+					            formatter:'{b}',
+					            offset: [10, 0],
+					            textStyle: {
+					                color: '#aaa',
+					                fontSize: 12
+					            }
+					        }
+					    }
+					},
+	                {
+	                    "value":0,
+	                    label: {
+	                        normal: {
+	                            show: true,
+	                            position: [-10, -20],
+	                            formatter:'{b}',
+	                            offset: [10, 0],
+	                            textStyle: {
+	                                color: '#aaa',
+	                                fontSize: 12
+	                            }
+	                        }
+	                    }
+	                },
+					{
+					    "value":0,
+					    label: {
+					        normal: {
+					            show: true,
+					            position: [-10, -20],
+					            formatter:'{b}',
+					            offset: [10, 0],
+					            textStyle: {
+					                color: '#aaa',
+					                fontSize: 12
+					            }
+					        }
+					    }
+					},
+					{
+					    "value":0,
+					    label: {
+					        normal: {
+					            show: true,
+					            position: [-10, -20],
+					            formatter:'{b}',
+					            offset: [10, 0],
+					            textStyle: {
+					                color: '#aaa',
+					                fontSize: 12
+					            }
+					        }
+					    }
+					},
+					{
+					    "value":0,
+					    label: {
+					        normal: {
+					            show: true,
+					            position: [-10, -20],
+					            formatter:'{b}',
+					            offset: [10, 0],
+					            textStyle: {
+					                color: '#aaa',
+					                fontSize: 12
+					            }
+					        }
+					    }
+					},
+					{
+					    "value":0,
+					    label: {
+					        normal: {
+					            show: true,
+					            position: [-10, -20],
+					            formatter:'{b}',
+					            offset: [10, 0],
+					            textStyle: {
+					                color: '#aaa',
+					                fontSize: 12
+					            }
+					        }
+					    }
+					},
+					{
+					    "value":0,
+					    label: {
+					        normal: {
+					            show: true,
+					            position: [-10, -20],
+					            formatter:'{b}',
+					            offset: [10, 0],
+					            textStyle: {
+					                color: '#aaa',
+					                fontSize: 12
+					            }
+					        }
+					    }
+					},
+					{
+					    "value":0,
+					    label: {
+					        normal: {
+					            show: true,
+					            position: [-10, -20],
+					            formatter:'{b}',
+					            offset: [10, 0],
+					            textStyle: {
+					                color: '#aaa',
+					                fontSize: 12
+					            }
+					        }
+					    }
+					},
+	                {
+	                    "value":0,
+	                    label: {
+	                        normal: {
+	                            show: true,
+	                            position: [-10, -20],
+	                            formatter:'{b}',
+	                            offset: [10, 0],
+	                            textStyle: {
+	                                color: '#aaa',
+	                                fontSize: 12
+	                            }
+	                        }
+	                    }
+	                },],
+	            z: 99999999,
+	           
+	        }, {
+	        type: 'bar',
+	        // data: [4000, 10000, 10000, 2000, 6000,5000, 5000, 5000,5000, 5000,5000, 5000, 3480, 5000, 4000,4000, 4000, 4810, 37000],
+	       data: [ 400, 400, 400,400, 400, 400,400, 400, 400,400],
+	        barWidth: 10,
+			tooltip: {
+						show: false
+					},
+	        barGap: '-100%',
+	        label: { 
+	            normal: {
+	                show: false,
+	            }
+	        },
+	         itemStyle:{
+	            normal:{
+	                color: 'rgba(0,0,0, 0.3)',
+	                barBorderRadius : 10
+	            }
+	        }
+	    }]
+	};
+	
+	var option6 = {
+	    	    grid: {
+	    	        left: '8%',
+					right: '14%',
+	    	        top: '0%',
+	    	        bottom: '0%',
+	    	    },
+	    	    tooltip: {      //可以配合下方的tooltip出来单个悬浮信息.
+	    			trigger: 'item',
+	    			textStyle: {
+	    				fontSize: 12,
+	    			},
+	    	    },
+	    	     legend: {
+	                right: '15',
+	                top: '5',
+	                textStyle: {
+	                    color: '#fff',
+	                    fontSize: 12,
+	                },
+	                itemWidth: 16,
+	                itemHeight: 10,
+	                itemGap: 12,
+	               
+	                data: ['男', '女']
+	        
+	            },
+	    	    xAxis: {
+	    	        type: 'value',
+	    	        splitLine: {
+	    	            show: false
+	    	        },
+	    	        axisLabel: {
+	    	            show: false
+	    	        },
+	    	        axisLine: {
+	    	            show: false
+	    	        },
+	    	        axisTick: {
+	    	            show: false
+	    	        }
+	    	    },
+	    	    yAxis: {
+	    	        type: 'category',
+	    	        data: [
+	                '个人发展空间小，找不到发展方向',
+	                '经济压力太大',
+	                '工作压力、强度太大',
+	                '现在掌握的知识、能力不能满足工作需求',
+	                '对所做工做缺乏兴趣',
+	                '职场人际关系方面存在问题',
+	                '个人情感问题',
+	                '不适应公司管理制度和文化',
+	                '存在其他问题',
+	                '没有遇到问题',
+	                '身体健康问题',
+	                ],
+	    	        splitLine: {
+	    	            show: false
+	    	        },
+	    	        axisLine: {
+	    	            show: false
+	    	        },
+	    	        axisTick: {
+	    	            show: false
+	    	        },
+	    	        axisLabel: {
+	    	                show:false
+	    	            }
+	    	    },
+	    	    series: [{
+	    	        name: '男',
+	    	        type: 'bar',
+	    	        // data: [ 0,0,0, 0, 0, 0, 0, 210, 1150, 1310,1360, 1440, 1530, 1550, 3480,3850, 4000, 4000, 4000, 4690,23590],
+	    			data: [249, 260, 280,289, 300, 350,360, 370, 380, 400],
+	    	        barWidth: 10,
+	    	        z:10,
+	    	        itemStyle: {
+	                    normal: {
+	                        color: new echarts.graphic.LinearGradient(1, 0, 0, 0, [{
+	                            offset: 0,
+	                            color: 'rgba(0,244,255,1)' // 0% 处的颜色
+	                        }, {
+	                            offset: 1,
+	                            color: 'rgba(0,77,167,1)' // 100% 处的颜色
+	                        }], false),
+	                        barBorderRadius: 11,
+	                    }
+	                },
+	    	            label: {
+	    	                show: true,
+	    	                fontSize: 20,
+	    	                distance: 10,
+	    	                position: [0, "-100%"],
+	    	                offset: [0, -50],
+	    	                normal: {
+	    	                    show: true,
+	    	                    position: 'right',
+	    	                    color: '#fff',
+	    	                    //TODO 
+	    	                }
+	    	            },
+	    	    }, {
+	    	           name: '女',
+	    	             type: 'bar',
+	    	            symbol: 'rect',
+	    	            symbolRepeat: 'fixed',
+	    	            symbolMargin: '70%',
+	    	            symbolClip: true,
+	    	            symbolSize: [10,70],
+	    	            symbolBoundingData: 1000,
+	    	                  
+	    	                label: {
+	    	                    normal: {
+	    	                        show: true,
+	    	                        position: 'right',
+	    	                        offset: [-10, 70],
+	    	                        textStyle: {
+	    	                            color: 'darkorange',
+	    	                            fontSize: 18
+	    	                        }
+	    	                    }
+	    	                },
+	    	           data: [
+	    	                {
+	    	                    "value":0,
+	    	                    label: {
+	    	                        normal: {
+	    	                            show: true,
+	    	                            position: [-10, -20],
+	    	                            formatter:'{b}',
+	    	                            offset: [10, 0],
+	    	                            textStyle: {
+	    	                                color: '#aaa',
+	    	                                fontSize: 12
+	    	                            }
+	    	                        }
+	    	                    }
+	    	                },
+	    					{
+	    					    "value":0,
+	    					    label: {
+	    					        normal: {
+	    					            show: true,
+	    					            position: [-10, -20],
+	    					            formatter:'{b}',
+	    					            offset: [10, 0],
+	    					            textStyle: {
+	    					                color: '#aaa',
+	    					                fontSize: 12
+	    					            }
+	    					        }
+	    					    }
+	    					},
+	    	                {
+	    	                    "value":0,
+	    	                    label: {
+	    	                        normal: {
+	    	                            show: true,
+	    	                            position: [-10, -20],
+	    	                            formatter:'{b}',
+	    	                            offset: [10, 0],
+	    	                            textStyle: {
+	    	                                color: '#aaa',
+	    	                                fontSize: 12
+	    	                            }
+	    	                        }
+	    	                    }
+	    	                },
+	    					{
+	    					    "value":0,
+	    					    label: {
+	    					        normal: {
+	    					            show: true,
+	    					            position: [-10, -20],
+	    					            formatter:'{b}',
+	    					            offset: [10, 0],
+	    					            textStyle: {
+	    					                color: '#aaa',
+	    					                fontSize: 12
+	    					            }
+	    					        }
+	    					    }
+	    					},
+	    					{
+	    					    "value":0,
+	    					    label: {
+	    					        normal: {
+	    					            show: true,
+	    					            position: [-10, -20],
+	    					            formatter:'{b}',
+	    					            offset: [10, 0],
+	    					            textStyle: {
+	    					                color: '#aaa',
+	    					                fontSize: 12
+	    					            }
+	    					        }
+	    					    }
+	    					},
+	    					{
+	    					    "value":0,
+	    					    label: {
+	    					        normal: {
+	    					            show: true,
+	    					            position: [-10, -20],
+	    					            formatter:'{b}',
+	    					            offset: [10, 0],
+	    					            textStyle: {
+	    					                color: '#aaa',
+	    					                fontSize: 12
+	    					            }
+	    					        }
+	    					    }
+	    					},
+	    					{
+	    					    "value":0,
+	    					    label: {
+	    					        normal: {
+	    					            show: true,
+	    					            position: [-10, -20],
+	    					            formatter:'{b}',
+	    					            offset: [10, 0],
+	    					            textStyle: {
+	    					                color: '#aaa',
+	    					                fontSize: 12
+	    					            }
+	    					        }
+	    					    }
+	    					},
+	    					{
+	    					    "value":0,
+	    					    label: {
+	    					        normal: {
+	    					            show: true,
+	    					            position: [-10, -20],
+	    					            formatter:'{b}',
+	    					            offset: [10, 0],
+	    					            textStyle: {
+	    					                color: '#aaa',
+	    					                fontSize: 12
+	    					            }
+	    					        }
+	    					    }
+	    					},
+	    					{
+	    					    "value":0,
+	    					    label: {
+	    					        normal: {
+	    					            show: true,
+	    					            position: [-10, -20],
+	    					            formatter:'{b}',
+	    					            offset: [10, 0],
+	    					            textStyle: {
+	    					                color: '#aaa',
+	    					                fontSize: 12
+	    					            }
+	    					        }
+	    					    }
+	    					},
+	    	                {
+	    	                    "value":0,
+	    	                    label: {
+	    	                        normal: {
+	    	                            show: true,
+	    	                            position: [-10, -20],
+	    	                            formatter:'{b}',
+	    	                            offset: [10, 0],
+	    	                            textStyle: {
+	    	                                color: '#aaa',
+	    	                                fontSize: 12
+	    	                            }
+	    	                        }
+	    	                    }
+	    	                },],
+	    	            z: 99999999,
+	    	           
+	    	        }, {
+	    	        type: 'bar',
+	    	        // data: [4000, 10000, 10000, 2000, 6000,5000, 5000, 5000,5000, 5000,5000, 5000, 3480, 5000, 4000,4000, 4000, 4810, 37000],
+	    	       data: [ 400, 400, 400,400, 400, 400,400, 400, 400,400],
+	    	        barWidth: 10,
+	    			tooltip: {
+	    						show: false
+	    					},
+	    	        barGap: '-30%',
+	    	        label: { 
+	    	            normal: {
+	    	                show: true,
+	    	                position: 'right',
+	    	            }
+	    	        },
+	    	        itemStyle: {
+	                    normal: {
+	                        color: new echarts.graphic.LinearGradient(1, 0, 0, 0, [{
+	                            offset: 0,
+	                            color: 'rgba(249,55,85,1)' // 0% 处的颜色
+	                        }, {
+	                            offset: 1,
+	                            color: 'rgba(242,1,39,1)' // 100% 处的颜色
+	                        }], false),
+	                        barBorderRadius: 11,
+	                    }
+	                },
+	    	    }]
+	    	};
+	
+	 var option7 = {
+		 grid: {//统计图距离边缘的距离
+		 	top: '2%',
+		 	left: '3%',
+		 	right: '5%',
+		 	bottom: '20%'
+		 },
+		  legend: {
+	           x: 'center',
+	           bottom: '0%',
+	           itemGap: 20,
+	          data:['就业','创业'],
+	           itemWidth :18,
+				itemHeight :10,
+	           textStyle: {
+	               color: '#fff',
+				   
+	           }
+	       },
+	series : [
+	    {
+	        name: '完成率',
+	        type: 'pie',
+	        radius : [40, 80],
+	        data:[
+	            {
+	                value: 70,
+	                name: '就业',
+	                itemStyle: {
+	                    normal: {
+	                        color: {
+	                            colorStops: [{
+	                                offset: 0,
+	                                color: '#57eabf' // 0% 处的颜色
+	                            }, {
+	                                offset: 1,
+	                                color: '#2563f9' // 100% 处的颜色
+	                            }]
+	                        },
+	                        
+	                    }
+	                }
+	            },
+	             
+	                {
+	                    value: 30,
+	                    name: '创业',
+						itemStyle: {
+						    normal: {
+						        color: {
+						            colorStops: [{
+						                offset: 0,
+						                color: '#f05f1c' // 0% 处的颜色
+						            }, {
+						                offset: 1,
+						                color: '#e9ea07' // 100% 处的颜色
+						            }]
+						        },
+						        
+						    }
+						}
+	                   
+	                }
+	
+	        ],
+	        roseType: 'angle',
+	        color: ['#000', '#4372da'],
+			center : ['50%', '45%'],
+	        label: {
+	            normal: {
+	                textStyle: {
+	                    color:  'rgba(255, 255,255, 0.6)',
+	                },
+	              
+	             formatter: function (param) {
+	                console.log(param);
+	                return param.name + ':\n' + param.value + '%';
+	                }   
+	            }
+	        },
+	        labelLine: {
+	            normal: {
+	                lineStyle: {
+	                    color: '#ddd'
+	                }
+	            }
+	        },
+	        itemStyle: {
+	            normal: {
+	                shadowBlur: 200,
+	                shadowColor: 'rgba(0, 0, 0, 0)'
+	            }
+	        }
+	    }
+	]
+	};
+	 
+	
+
+     var colorArr=["#218de0", "#01cbb3", "#85e647", "#5d5cda", "#05c5b0", "#c29927"];
+var colorAlpha=['rgba(60,170,211,0.1)','rgba(1,203,179,0.1)','rgba(133,230,71,0.1)','rgba(93,92,218,0.1)','rgba(5,197,176,0.1)','rgba(194,153,39,0.1)']
+    var option8 = {
+      title: {
+        text: '',
+        subtext: '',
+        left: 'center',
+        textStyle: {
+          color: '#fff',
+          fontSize: 18
+        }
+      },
+	  grid: {
+	      top: '20%',
+	      left: '1%',
+	      right: '1%',
+	      bottom: '20%',
+	      containLabel: true,
+	  },
+      legend: {
+        show: true,
+        top: '60%',
+        left: '0',
+        textStyle: {
+          color: '#fff'
+        }
+      },
+      graphic: { // 图形中间文字
+        type: 'text',
+        left: 'center',
+        top: '38%',
+        style: {
+          text: '总计\n1942\n人',
+          textAlign: 'center',
+          fill: '#FFE033',
+          fontSize: 16
+        }
+      },
+      series: [
+        {
+          name: '三级指标',
+          
+          type: 'pie',
+          center: ['50%', '44%'],
+          radius: ['58%', '74%'],
+          itemStyle: {
+            normal: {
+              // 设置扇形的阴影
+              shadowBlur: 10,
+              shadowColor: '#666'
+            }
+          },
+          labelLine: {
+            normal: {
+              lineStyle: {
+                color: "rgba(255, 255, 255, 0.3)"
+              },
+              length: 10,
+              length2: 15
+            }
+          },
+          label: {
+            normal: {position: 'outer',
+              textStyle: {
+                color: "rgba(255, 255, 255)"
+              }
+            }
+          },
+          
+          data:
+            [
+              {
+               value: 1,
+            name: ' 外向',
+            itemStyle: {
+				normal: {
+                  borderColor: colorArr[3],
+                  borderWidth:2,
+                  shadowBlur: 20,
+                  shadowColor: colorArr[3],
+                  shadowOffsetx: 25,
+                  shadowOffsety: 20,
+                  color:colorAlpha[3]
+                    },
+					}
+            
+          }, {
+            value: 1,
+            name: '感觉',
+             itemStyle: {
+				 normal: {
+                  borderColor: colorArr[4],
+                  borderWidth:2,
+                  shadowBlur: 20,
+                  shadowColor: colorArr[4],
+                  shadowOffsetx: 25,
+                  shadowOffsety: 20,
+                  color:colorAlpha[4]
+                    },
+					}
+          }, {
+            value: 5,
+            name: '情感',
+            itemStyle: {
+				normal: {
+                  borderColor: colorArr[5],
+                  borderWidth:2,
+                  shadowBlur: 20,
+                  shadowColor: colorArr[5],
+                  shadowOffsetx: 25,
+                  shadowOffsety: 20,
+                  color:colorAlpha[5]
+                    },
+					}
+          }, {
+            value: 3,
+            name: '判断',
+             itemStyle: {
+				 normal: {
+                  borderColor: colorArr[0],
+                  borderWidth:2,
+                  shadowBlur: 20,
+                  shadowColor: "#41a8f8",
+                  shadowOffsetx: 25,
+                  shadowOffsety: 20,
+                  color:colorAlpha[0]
+                    },
+					}
+            
+          }]
+        },
+        {
+          name: '二级指标',
+          type: 'pie',
+          radius: ['34%', '50%'],
+          center: ['50%', '44%'],
+          label: {
+            normal: {
+              position: 'inner'
+            }
+          },
+          itemStyle: {
+            normal: {
+              // 设置扇形的阴影
+              shadowBlur: 10,
+              shadowColor: '#666'
+
+            }
+          },
+          data: [{
+            value: 1,
+            name: ' 成就·实现型',
+            itemStyle: {
+				normal: {
+                  borderColor: colorArr[2],
+                  borderWidth:2,
+                  shadowBlur: 20,
+                  shadowColor: colorArr[2],
+                  shadowOffsetx: 25,
+                  shadowOffsety: 20,
+                  color:colorAlpha[2]
+                    },
+					}
+          }, {
+            value: 2,
+            name: '自主·独立型',
+             itemStyle: {
+				 normal: {
+                  borderColor: colorArr[3],
+                  borderWidth:2,
+                  shadowBlur: 20,
+                  shadowColor: colorArr[3],
+                  shadowOffsetx: 25,
+                  shadowOffsety: 20,
+                  color:colorAlpha[3]
+                    },
+					}
+          }, {
+            value: 5,
+            name: '报酬·财富型',
+			
+           itemStyle: {
+			   normal: {
+                  borderColor: colorArr[4],
+                  borderWidth:2,
+                  shadowBlur: 20,
+                  shadowColor: colorArr[4],
+                  shadowOffsetx: 25,
+                  shadowOffsety: 20,
+                  color:colorAlpha[4]
+                    },
+					},
+          }]
+        },
+        {
+          name: '一级指标',
+          type: 'pie',
+          radius: ['14%', '24%'],
+          center: ['50%', '44%'],
+          label: {
+            normal: {
+              position: 'inner'
+            }
+          },
+          itemStyle: {
+            normal: {
+              // 设置扇形的阴影
+              shadowBlur: 10,
+              shadowColor: '#666'
+
+            }
+          },
+          data: [{
+            value: 2,
+            name: '企业型',
+            itemStyle: {
+				normal: {
+                  borderColor: colorArr[0],
+                  borderWidth:2,
+                  shadowBlur: 20,
+                  shadowColor: "#41a8f8",
+                  shadowOffsetx: 25,
+                  shadowOffsety: 20,
+                  color:colorAlpha[0]
+                    },
+					}
+          }, {
+            value: 3,
+            name: '艺术型',
+            itemStyle: {
+				normal: {
+                  borderColor: colorArr[5],
+                  borderWidth:2,
+                  shadowBlur: 20,
+                  shadowColor: colorArr[5],
+                  shadowOffsetx: 25,
+                  shadowOffsety: 20,
+                  color:colorAlpha[5]
+                    },
+					}
+          }]
+        }
+      ]
+    }
+	
+	var option9 = {
+	      // backgroundColor: "#05224d",
+	      tooltip: {},
+	      grid: {
+	          top: '8%',
+	          left: '4%',
+	          right: '4%',
+	          bottom: '4%',
+	          containLabel: true,
+	      },
+	      // legend: {
+	      //     itemGap: 50,
+	      //     data: ['社团人数'],
+	      //     textStyle: {
+	      //         color: '#f9f9f9',
+	      //         borderColor: '#fff'
+	      //     },
+	      // },
+	      xAxis: [{
+	          type: 'category',
+	          boundaryGap: true,
+	          axisLine: { //坐标轴轴线相关设置。数学上的x轴
+	              show: true,
+	              lineStyle: {
+	                  color: '#0a3256',
+					  fontSize: 12,
+	              },
+	          },
+	          axisLabel: { //坐标轴刻度标签的相关设置
+	              textStyle: {
+	                  color: '#d1e6eb',
+	                  margin: 15,
+					  fontSize: 12,
+	              },
+	          },
+	          axisTick: {
+	              show: false,
+	          },
+	          data: ['舞蹈社' ,'书画社','篮球社','乒乓球社','动漫社','歌咏社'],
+	      }],
+	      yAxis: [{
+	          type: 'value',
+	          min: 0,
+	          // max: 140,
+	          splitNumber: 7,
+	          splitLine: {
+	              show: true,
+	              lineStyle: {
+	                  color: '#0a3256'
+	              }
+	          },
+	          axisLine: {
+	              show: false,
+	          },
+	          axisLabel: {
+	              margin: 20,
+	              textStyle: {
+	                  color: '#d1e6eb',
+	  
+	              },
+	          },
+	          axisTick: {
+	              show: false,
+	          },
+	      }],
+	      series: [{
+	        
+	        //   name: '社团人数',
+	          type: 'bar',
+	          barWidth: 16,
+	          tooltip: {
+	              show: false
+	          },
+	           label: {
+				   normal: {
+	              show: true,
+	              position: 'top',
+	              textStyle: {
+	                  color: '#fff',
+	              },
+				  }
+	          },
+	          itemStyle: {
+	  	            normal: {
+	  	                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+	  	                    offset: 0,
+	  	                    color: '#41E1D4' // 0% 处的颜色
+	  	                }, {
+	  	                    offset: 1,
+	  	                    color: '#10A7DB' // 100% 处的颜色
+	  	                }], false),
+	  	                barBorderRadius: [30, 30, 0, 0],
+	  	                shadowBlur: 4,
+	  	            }
+	  	        },
+	         data: [120, 200, 260, 300, 340, 400]
+	      }]
+	  };
+	
+	var option10 = {
+	    
+	    grid: {
+	        left: '4%',
+			right:'14%',
+	        top: '6%',
+	        bottom: '1%',
+	    },
+	    tooltip: {      //可以配合下方的tooltip出来单个悬浮信息.
+			trigger: 'item',
+			textStyle: {
+				fontSize: 12,
+			},
+	    },
+	    xAxis: {
+	        type: 'value',
+	        splitLine: {
+	            show: false
+	        },
+	        axisLabel: {
+	            show: false
+	        },
+	        axisLine: {
+	            show: false
+	        },
+	        axisTick: {
+	            show: false
+	        }
+	    },
+	    yAxis: {
+	        type: 'category',
+	        data: [
+			'5书画大赛',
+			'4歌咏比赛',
+			'3乒乓球决赛',
+			'2足球联赛',
+			'1篮球决赛',
+	        ],
+	        splitLine: {
+	            show: false
+	        },
+	        axisLine: {
+	            show: false
+	        },
+	        axisTick: {
+	            show: false
+	        },
+	        axisLabel: {
+	                show:false
+	            }
+	    },
+	    series: [{
+	        type: 'bar',
+			data: [249,300,360,380, 400],
+	        barWidth: 10,
+	        z:10,
+	        itemStyle: {
+	            normal:{
+	                color: new echarts.graphic.LinearGradient(
+	                    0, 0, 1, 0,
+	                    [{
+	                        offset: 0,
+	                        color: '#f05f1c' /*#0085FA*/
+	                    }, {
+	                        offset: 0.7,
+	                        color: '#e9ea07' /*#00BBFD*/
+	                    }]),
+	                barBorderRadius: 15
+	            }},
+	            label: {
+	                show: true,
+	                fontSize: 20,
+	                distance: 10,
+	                position: [0, "-100%"],
+	                offset: [0, -50],
+	                normal: {
+	                    show: true,
+	                    position: 'right',
+	                    color: '#fff',
+	                    //TODO 
+	                }
+	            },
+	    }, {
+	            // current data
+	             type: 'bar',
+	            symbol: 'rect',
+	            symbolRepeat: 'fixed',
+	            symbolMargin: '70%',
+	            symbolClip: true,
+	            symbolSize: [10,70],
+	            symbolBoundingData: 1000,
+	                  
+	                label: {
+	                    normal: {
+	                        show: true,
+	                        position: 'right',
+	                        offset: [-10, 70],
+	                        textStyle: {
+	                            color: 'darkorange',
+	                            fontSize: 18
+	                        }
+	                    }
+	                },
+	           data: [
+	                {
+	                    "value":0,
+	                    label: {
+	                        normal: {
+	                            show: true,
+	                            position: [-10, -20],
+	                            formatter:'{b}',
+	                            offset: [10, 0],
+	                            textStyle: {
+	                                color: '#aaa',
+	                                fontSize: 12
+	                            }
+	                        }
+	                    }
+	                },
+					{
+					    "value":0,
+					    label: {
+					        normal: {
+					            show: true,
+					            position: [-10, -20],
+					            formatter:'{b}',
+					            offset: [10, 0],
+					            textStyle: {
+					                color: '#aaa',
+					                fontSize: 12
+					            }
+					        }
+					    }
+					},
+	                {
+	                    "value":0,
+	                    label: {
+	                        normal: {
+	                            show: true,
+	                            position: [-10, -20],
+	                            formatter:'{b}',
+	                            offset: [10, 0],
+	                            textStyle: {
+	                                color: '#aaa',
+	                                fontSize: 12
+	                            }
+	                        }
+	                    }
+	                },
+					{
+					    "value":0,
+					    label: {
+					        normal: {
+					            show: true,
+					            position: [-10, -20],
+					            formatter:'{b}',
+					            offset: [10, 0],
+					            textStyle: {
+					                color: '#aaa',
+					                fontSize: 12
+					            }
+					        }
+					    }
+					},
+	                {
+	                    "value":0,
+	                    label: {
+	                        normal: {
+	                            show: true,
+	                            position: [-10, -20],
+	                            formatter:'{b}',
+	                            offset: [10, 0],
+	                            textStyle: {
+	                                color: '#aaa',
+	                                fontSize: 12
+	                            }
+	                        }
+	                    }
+	                },],
+	            z: 99999999,
+	           
+	        }, {
+	        type: 'bar',
+	       data: [ 400, 400, 400,400, 400],
+	        barWidth: 10,
+			tooltip: {
+						show: false
+					},
+	        barGap: '-100%',
+	        label: { 
+	            normal: {
+	                show: false,
+	            }
+	        },
+	         itemStyle:{
+	            normal:{
+	                color: 'rgba(0,0,0, 0.3)',
+	                barBorderRadius : 10
+	            }
+	        }
+	    }]
+	};
+			
+myGuanxiTu.setOption(option2);
+myBinTu.setOption(option3);
+mypaiming1.setOption(option4);
+mypaiming2.setOption(option5);
+mypaiming3.setOption(option6);
+myZuzhuangTu1.setOption(option7);
+myZuzhuangTu2.setOption(option8);
+myZuzhuangTu3.setOption(option9);
+myZuzhuangTu4.setOption(option10);
+	</script>
+</html>
