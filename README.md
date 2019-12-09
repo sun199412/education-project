@@ -18,10 +18,10 @@
 ![女职中](img/one.jpg)
 
 5. **[热力图展示 - 基于echarts&百度地图](https://sun199412.github.io/education-project/example/case02/index.html)**
-![热力图展示 - 基于echarts&百度地图](example/case01/img/thumb.jpg)
+![热力图展示 - 基于echarts&百度地图](example/case02/img/thumb.jpg)
 
 6. **[地图数据可视化-基于Echarts Geo](https://sun199412.github.io/education-project/example/case01/index.html)**
-![地图数据可视化-基于Echarts Geo](example/case02/img/thumb.jpg)
+![地图数据可视化-基于Echarts Geo](example/case01/img/thumb.jpg)
 
 7. **[echarts扩展示例](https://sun199412.github.io/education-project/example/case03/index.html)**
 ![echarts扩展示例](example/case03/img/thumb.jpg)
@@ -37,3 +37,12 @@
 
 11. **[模板2](https://sun199412.github.io/education-project/example/case07/index.html)**
 ![模板2](example/case07/img/thumb.jpg)
+
+12. **[智慧物流服务中心](https://sun199412.github.io/education-project/example/case08/index.html)**
+![智慧物流服务中心](example/case08/images/thumb.jpg)
+
+13. **[智慧物流服务中心](https://sun199412.github.io/education-project/example/case08/index.html)**
+![智慧物流服务中心](example/case08/images/thumb.jpg)
+
+14. **[大数据分析系统](https://sun199412.github.io/education-project/example/case09/index.html)**
+![大数据分析系统](example/case09/img/thumb.jpg)
