@@ -1,18 +1,21 @@
 # education-project
 使用jquery+echarts做的大数据可视化前端展示，喜欢的点点star和fork!
 
+# 要看图片的话去gitee仓库看：
+ **[仓库地址](https://gitee.com/dj49846917/picture)**
+
 # 项目预览地址和截图
 1. **[登录页面](https://sun199412.github.io/education-project/login.html)**
-![登录页面](https://gitee.com/dj49846917/picture/raw/master/img/login.jpg)
+![登录页面](img/login.jpg)
 
 2. **[首页](https://sun199412.github.io/education-project/index.html)**
-![首页](https://gitee.com/dj49846917/picture/raw/master/img/home.jpg)
+![首页](img/home.jpg)
 
 3. **[数据分析](https://sun199412.github.io/education-project/index2.html)**
-![数据分析](https://gitee.com/dj49846917/picture/raw/master/img/data.jpg)
+![数据分析](img/data.jpg)
 
 4. **[女职中](https://sun199412.github.io/education-project/index4.html)**
-![女职中](https://gitee.com/dj49846917/picture/raw/master/img/one.jpg)
+![女职中](img/one.jpg)
 
 5. **[热力图展示 - 基于echarts&百度地图](https://sun199412.github.io/education-project/example/case02/index.html)**
 ![热力图展示 - 基于echarts&百度地图](example/case01/img/thumb.jpg)
