@@ -13,3 +13,6 @@
 
 4. **[女职中](https://sun199412.github.io/education-project/index4.html)**
 ![女职中](img/one.jpg)
+
+5. **[热力图展示 - 基于echarts&百度地图](https://sun199412.github.io/education-project/example/case02/index.html)**
+![热力图展示 - 基于echarts&百度地图](img/case2.jpg)
