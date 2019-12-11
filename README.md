@@ -108,5 +108,5 @@
 27. **[大数据可视化展板通用模板](https://sun199412.github.io/education-project/example/case22/index.html)**
 ![大数据可视化展板通用模板](example/case22/images/thumb.jpg)
 
-28. **[营销大数据模板](https://sun199412.github.io/education-project/example/case23/index.html)**
+28. **[营销大数据模板](https://sun199412.github.io/education-project/example/case23)**
 ![营销大数据模板](example/case23/images/thumb.jpg)
